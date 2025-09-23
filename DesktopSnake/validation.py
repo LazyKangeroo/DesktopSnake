@@ -7,4 +7,4 @@ class ErrMsg:
         pass
 
     def dataErr(self, text, line):
-        print(f"[!] Data error: {text} ({str(line)})")
+        print(f"[!] Data error: {text}---\n > Line ({str(line)})")
