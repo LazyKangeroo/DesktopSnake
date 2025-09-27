@@ -10,7 +10,7 @@ duration = .5 #* duration of drag
 
 screen_width, screen_height = gui.size() #* get screen size
 grid_x = 100
-grid_y = 100
+grid_y = 120
 
 default_head_pos = {'x' : 30+grid_x*2,'y' : 50} #* initial head position
 new_head_pos = {'x': None, 'y': None}
@@ -53,6 +53,13 @@ def duration_manager(amnt_icons):
     global duration
     duration = DURATION_INTERVAL * amnt_icons
 
+##! Initial setup
+print('Place one icon at the top left corner of the screen (This will be the head)')
+print('Use W A S D to move the snake')
+print('Press x to exit')
+print('Starting in 3 seconds...')
+time.sleep(3) #? give user time to switch to desired window
+
 ##! Main loop
 while not kb.is_pressed('x'): #* press 'x' to exit
     duration_manager(len(tail)) # update drag duration based on tail length
@@ -84,5 +91,3 @@ while not kb.is_pressed('x'): #* press 'x' to exit
     move_icons(tail[-1]['x'],tail[-1]['y'],new_head_pos['x'],new_head_pos['y'])
 
     tail.pop() # remove the last element of the list
-
-    print(tail) # print tail positions for debugging
