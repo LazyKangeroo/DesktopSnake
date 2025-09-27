@@ -5,16 +5,16 @@ import time
 ####! Fail save
 gui.FAILSAFE = True
 
-DURATION_INTERVAL = .5 #! interval for drag for each icon
-duration = .5 #* duration of drag
+DURATION_INTERVAL = .15 #! interval for drag for each icon
+duration = .15 #* duration of drag
 
 screen_width, screen_height = gui.size() #* get screen size
 grid_x = 100
 grid_y = 120
 
-default_head_pos = {'x' : 30+grid_x*2,'y' : 50} #* initial head position
+default_head_pos = {'x' : 30+grid_x*4,'y' : 50} #* initial head position
 new_head_pos = {'x': None, 'y': None}
-tail = [default_head_pos,{'x' : 30+grid_x,'y' : 50},{'x' : 30,'y' : 50}] #* initial tail positions
+tail = [default_head_pos,{'x' : 30+grid_x*3,'y' : 50},{'x' : 30+grid_x*2,'y' : 50},{'x' : 30+grid_x*1,'y' : 50},{'x' : 30+grid_x*0,'y' : 50}] #* initial tail positions
 direction = {'x': grid_x, 'y': 0} #* initial direction
 
 ##! Function to move icons
@@ -25,26 +25,22 @@ def move_icons(from_x,from_y,to_x,to_y):
 ##! Input function to determine new direction position
 def input():
     if kb.is_pressed('w'): #* up
-        print('up')
         return {'x':0,'y':-grid_y}
     if kb.is_pressed('s'): #* down
-        print('down')
         return {'x':0,'y':grid_y}
     if kb.is_pressed('a'): #* left
-        print('left')
         return {'x':-grid_x,'y':0}
     if kb.is_pressed('d'): #* right
-        print('right')
         return {'x':grid_x,'y':0}
 
 ##! Collision detection function
 def collision(head):
     if head['x'] < 0 or head['x'] > screen_width or head['y'] < 0 or head['y'] > screen_height:
-        print('collision with wall')
+        print('----Collision with Wall-----')
         return True
     for segment in tail[1:]:
         if head['x'] == segment['x'] and head['y'] == segment['y']:
-            print('collision with self')
+            print('----Collision with ASelf----')
             return True
     return False
 
