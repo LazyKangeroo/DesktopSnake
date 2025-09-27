@@ -4,15 +4,17 @@ import time
 
 ####! Fail save
 gui.FAILSAFE = True
-duration = .32 #* duration of drag
+
+DURATION_INTERVAL = .5 #! interval for drag for each icon
+duration = .5 #* duration of drag
 
 screen_width, screen_height = gui.size() #* get screen size
 grid_x = 100
 grid_y = 100
 
-default_head_pos = {'x' : 30+grid_x*3,'y' : 50} #* initial head position
+default_head_pos = {'x' : 30+grid_x*2,'y' : 50} #* initial head position
 new_head_pos = {'x': None, 'y': None}
-tail = [default_head_pos,{'x':30+grid_x*2,'y':50},{'x':30+grid_x,'y':50},{'x':30,'y':50}] #* initial tail positions
+tail = [default_head_pos,{'x' : 30+grid_x,'y' : 50},{'x' : 30,'y' : 50}] #* initial tail positions
 direction = {'x': grid_x, 'y': 0} #* initial direction
 
 ##! Function to move icons
@@ -46,8 +48,15 @@ def collision(head):
             return True
     return False
 
+##! Manage drag duration
+def duration_manager(amnt_icons):
+    global duration
+    duration = DURATION_INTERVAL * amnt_icons
+
 ##! Main loop
 while not kb.is_pressed('x'): #* press 'x' to exit
+    duration_manager(len(tail)) # update drag duration based on tail length
+
     time.sleep(.2) #! as to not overload CPU with calculations
 
     new_direction = input() # get new direction from input
