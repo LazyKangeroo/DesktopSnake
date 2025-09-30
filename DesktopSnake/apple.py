@@ -25,9 +25,17 @@ class Apple:
 
     #! moving apple to spawn position from stored position
     def move_to_spawn(self):
-        gui.moveTo(x=self.stored_pos['x'], y=self.stored_pos['y'])
-        gui.dragTo(x=self.position['x'], y=self.position['y'], duration=0.5, button='left')
+        #? Ignore keyboard interrupts during drag
+        blocked_keys = ['w', 'a', 's', 'd', 'up', 'down', 'left', 'right']
+        for key in blocked_keys:
+            kb.block_key(key)
 
+        try:
+            #* Move apple from stored position to spawn position
+            gui.moveTo(x=self.stored_pos['x'], y=self.stored_pos['y'])
+            gui.dragTo(x=self.position['x'], y=self.position['y'], duration=0.5, button='left')
+        finally:
+            kb.unhook_all() #? Unblock all keys
 
     #! Ensure no colliction with body of snake and other apples
     def check_collision(self, tail, apples,all_stored_pos):

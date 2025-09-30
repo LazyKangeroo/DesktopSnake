@@ -106,8 +106,13 @@ while not kb.is_pressed('x'): #* press 'x' to exit
     if apple_timer == 0 or apple_timer == apple_spawn_interval: # spawn apple at start or at set intervals
         if len(apple_stored_pos) > 0: #? check if there are stored apple positions left
             apples.append(Apple(stored_pos=apple_stored_pos[-1],tail=tail,apples=apples,all_stored_pos=apple_stored_pos)) #* spawn new apple at random position
+            apple_stored_pos.pop() # remove used position
         else: #? no more apple stored
             print('\n - No more stored apples! -\n\n----YOU WON!----')
             break
         apple_timer = 0 # reset timer
     apple_timer += 1 # increment timer
+
+#! Exit message
+if kb.is_pressed('x'):
+    print('Exit command received. Exiting...')
