@@ -11,10 +11,10 @@ DURATION_INTERVAL = .15 #! interval for drag for each icon
 duration = .15 #* duration of drag
 
 screen_width, screen_height = gui.size() #* get screen size
-grid_x = 100
+grid_x = 95
 grid_y = 120
 
-default_head_pos = {'x' : 30,'y' : 50} #* initial head position
+default_head_pos = {'x' : grid_x//2,'y' : grid_y//2} #* initial head position
 new_head_pos = {'x': None, 'y': None}
 tail = [default_head_pos] #* initial tail positions
 direction = {'x': grid_x, 'y': 0} #* initial direction
@@ -52,6 +52,13 @@ def collision(head):
             return True
     return False
 
+##! Collision detection for apples
+def apple_collision(head):
+    for apple in apples:
+        if head['x'] == apple.position['x'] and head['y'] == apple.position['y']:
+            return apple
+    return None
+
 ##! Manage drag duration
 def duration_manager(amnt_icons):
     global duration
@@ -72,8 +79,6 @@ time.sleep(3) #? give user time to switch to desired window
 
 ##! Main loop
 while not kb.is_pressed('x'): #* press 'x' to exit
-    duration_manager(len(tail)) # update drag duration based on tail length
-
     time.sleep(.2) #! as to not overload CPU with calculations
 
     new_direction = input() # get new direction from input
@@ -91,6 +96,22 @@ while not kb.is_pressed('x'): #* press 'x' to exit
     if collision(head):
         print('End of Game')
         break
+
+    #! Collision with apple
+    apple_picked_up = apple_collision(head)
+    if  apple_picked_up is not None:
+        apple_picked_up.move_apple_to_tail(tail[-1])
+
+        apples.remove(apple_picked_up)
+
+        last_tail_segment = tail[-1]
+        print(last_tail_segment)
+        new_last_tail_segment = {'x': last_tail_segment['x'] - direction['x'], 'y': last_tail_segment['y'] - direction['y']}
+        print(new_last_tail_segment)
+        print(tail)
+        tail.append(new_last_tail_segment)
+        print(tail)
+        duration_manager(len(tail))
 
     #? update new head position based on direction
     new_head_pos = {'x': head['x'] + direction['x'], 'y': head['y'] + direction['y']}

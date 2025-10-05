@@ -12,7 +12,7 @@ class Apple:
 
     def spawn(self,tail,apples,all_stored_pos):
         screen_width, screen_height = gui.size()
-        grid_x = 100
+        grid_x = 95
         grid_y = 120
         apple_x = random.randint(0, screen_width // grid_x) * grid_x
         apple_y = random.randint(0, screen_height // grid_y) * grid_y
@@ -49,6 +49,22 @@ class Apple:
             if self.position['x'] == pos['x'] and self.position['y'] == pos['y']:
                 return True
         return False
+
+    #! Move apple to tail position last position
+    def move_apple_to_tail(self,tail):
+        #? Ignore keyboard interrupts during drag
+        blocked_keys = ['w', 'a', 's', 'd', 'up', 'down', 'left', 'right']
+        for key in blocked_keys:
+            kb.block_key(key)
+
+        try:
+            #* Move apple from stored position to spawn position
+            gui.moveTo(x=self.position['x'], y=self.position['y'])
+            gui.dragTo(x=tail['x'], y=tail['y'], duration=0.5, button='left')
+        finally:
+            kb.unhook_all() #? Unblock all keys
+        return
+
 
 ##! Function to get apple positions from user
 def get_apple_position():
