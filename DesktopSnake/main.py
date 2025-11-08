@@ -55,8 +55,10 @@ def collision(head):
 ##! Collision detection for apples
 def apple_collision(head):
     for apple in apples:
-        if head['x'] == apple.position['x'] and head['y'] == apple.position['y']:
-            return apple
+        if head['x'] > apple.position['x'] - grid_x / 2 and head['x'] < apple.position['x'] + grid_x / 2:
+            if head['y'] > apple.position['y'] - grid_y / 2 and head['y'] < apple.position['y'] + grid_y:
+                print('Collision with Apple')
+                return apple
     return None
 
 ##! Manage drag duration
