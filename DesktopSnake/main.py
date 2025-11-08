@@ -107,12 +107,8 @@ while not kb.is_pressed('x'): #* press 'x' to exit
         apples.remove(apple_picked_up)
 
         last_tail_segment = tail[-1]
-        print(last_tail_segment)
         new_last_tail_segment = {'x': last_tail_segment['x'] - direction['x'], 'y': last_tail_segment['y'] - direction['y']}
-        print(new_last_tail_segment)
-        print(tail)
         tail.append(new_last_tail_segment)
-        print(tail)
         duration_manager(len(tail))
 
     #? update new head position based on direction
